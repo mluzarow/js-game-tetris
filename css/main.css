@@ -57,3 +57,27 @@ body {
 	font-family: Consolas;
 	font-size: 2.5em;
 }
+
+/* ===== Next Piece Preview ===== */
+#next-piece .line {
+	height: 30px;
+	clear: left;
+	border-top: 1px solid grey;
+}
+
+#next-piece .line:last-child {
+	border-bottom: 1px solid grey;
+}
+
+#next-piece .line .node {
+	width: 30px;
+	height: 30px;
+	float: left;
+	background-color: #ececec;
+	border-left: 1px solid grey;
+	box-sizing: border-box;
+}
+
+#next-piece .line .node:last-child {
+	border-right: 1px solid grey;
+}
