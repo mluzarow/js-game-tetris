@@ -8,6 +8,11 @@ class Tetris {
 		this._$lines = new Lines ($e[2], 0);
 		this._$nextPiece = new NextPiece ($e[3]);
 		this._$board = document.getElementById ("board");
+		this._board = Array (20).fill (Array (10).fill (0));
+		
+		this._pieceFalling = false;
+		this._timeDiff = 120;
+		this._curTime = 0;
 		
 		// Build node
 		let $node = document.createElement("div");
@@ -29,6 +34,83 @@ class Tetris {
 		// Build board
 		for (let i = 0; i < 20; i++) {
 			this._$board.appendChild ($line.cloneNode (true));
+		}
+		
+		// Set up keyboard key handler
+		this._$board.addEventListener ("keyup", this._handlerKeyUp);
+		
+		// Start game loop
+		setInterval (this._gameLoop.bind (this), 1000 / 60);
+	}
+	
+	_gameLoop () {
+		if (++this._curTime < this._timeDiff) {
+			return;
+		}
+		
+		this._curTime = 0;
+		
+		if (this._pieceFalling === false) {
+			// Place the next piece
+			this._newPiece ();
+		}
+		
+		if (this._currentLine === 19) {
+			// This is the bottom so just let it sit
+			this._solidify ();
+		}
+		
+		let currentLine = this._boad[this._currentLine];
+		let nextLine
+		
+		console.log ("update!");
+	}
+	
+	_generateNextPiece () {
+		let nextPiece = Math.floor (Math.random () * 7 + 1);
+		
+		this._$nextPiece.innerHTML = '';
+		this._$nextPiece.appendChild (this._$nextPiece.getPiece ();
+	}
+	
+	_handlerKeyUp (e) {
+		if (this._pieceFalling === false) {
+			// Don't do anything if there is no active piece
+			return;
+		}
+		
+		switch (e.code) {
+			case "ArrowUp":    return this._moveSpin ();
+			case "ArrowRight": return this._moveRight ();
+			case "ArrowDown":  return this._moveDown ();
+			case "ArrowLeft":  return this._moveLeft ();
+		}
+	}
+	
+	_moveDown () {
+		
+	}
+	
+	_moveLeft () {
+		
+	}
+	
+	_moveRight () {
+		
+	}
+	
+	_moveSpin () {
+		
+	}
+	
+	_solidify () {
+		for (let i = 0; i < this._board.length; i++) {
+			for (let j = 0; j < this._board[i].length; j++) {
+				if (this._board[i][j] === 2) {
+					this._board[i][j] = 1;
+					this._$board[i][j].classList = "node inactive";
+				}
+			}
 		}
 	}
 }
@@ -89,7 +171,7 @@ class NextPiece extends DataItem {
 		
 		this._templates = this._buildTemplates (this._getTemplateData ())
 		
-		this.update (this._templates["blank"]);
+		this.update (this._templates[0]);
 	}
 	
 	update ($element) {
@@ -139,57 +221,57 @@ class NextPiece extends DataItem {
 	
 	_getTemplateData () {
 		return [
-			{
-				name: "I",
+			{ // I
+				name: 1,
 				data: [
 					[false, false, false, false, false],
 					[true, true, true, true, true]
 				]
 			},
-			{
-				name: "O",
+			{ // O
+				name: 2,
 				data: [
 					[false, false, true, true, false],
 					[false, false, true, true, false]
 				]
 			},
-			{
-				name: "T",
+			{ // T
+				name: 3,
 				data: [
 					[false, false, true, false, false],
 					[false, true, true, true, false]
 				]
 			},
-			{
-				name: "S",
+			{ // S
+				name: 4,
 				data: [
 					[false, false, true, true, false],
 					[false, true, true, false, false]
 				]
 			},
-			{
-				name: "Z",
+			{ // Z
+				name: 5,
 				data: [
 					[false, true, true, false, false],
 					[false, false, true, true, false]
 				]
 			},
-			{
-				name: "J",
+			{ // J
+				name: 6,
 				data: [
 					[false, true, false, false, false],
 					[false, true, true, true, false]
 				]
 			},
-			{
-				name: "L",
+			{ // L
+				name: 7,
 				data: [
 					[false, false, false, true, false],
 					[false, true, true, true, false]
 				]
 			},
-			{
-				name: "blank",
+			{ // Blank
+				name: 0,
 				data: [
 					[false, false, false, false, false],
 					[false, false, false, false, false]
